@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
     'orders.apps.OrdersConfig',
+    'payment.apps.PaymentConfig',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -121,6 +123,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -129,3 +132,16 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 CART_SESSION_ID = 'cart'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Paypal Settings
+# Paypal Settings
+PAYPAL_TEST = True
+PAYPAL_RECEIVER_EMAIL = 'business@centennialinfotech.com'
+
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/'  # RabbitMQ broker URL
+CELERY_RESULT_BACKEND = 'rpc://'  # Using RPC for result backend
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
