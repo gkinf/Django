@@ -8,23 +8,63 @@
  </head>
  <body>
    <div id="header">
-     <a href="/" class="logo">My shop</a>
-   </div>
-   <div id="subheader">
-   <div class="cart">
-    {% with total_items=cart|length %}
-    {% if total_items > 0 %}
-      Your cart:
-      <a href="{% url "cart:cart_detail" %}">
-        {{ total_items }} item{{ total_items|pluralize }},
-        ${{ cart.get_total_price }}
-      </a>
-      {% elif not order %}
-      Your cart is empty.
-    {% endif %}
-  {% endwith %}
-   </div>
-  </div>
+    {% comment %} <span class="logo">Bookmarks</span> {% endcomment %}
+      <span class="user">
+        {% if request.user.is_authenticated %}
+        <ul class="menu">
+          <li {% if section == "dashboard" %}class="selected"{% endif %}>
+            <a href="{% url "dashboard" %}">My dashboard</a>
+          </li>
+          <li {% if section == "images" %}class="selected"{% endif %}>
+            <a href="#">Images</a>
+          </li>
+          <li {% if section == "people" %}class="selected"{% endif %}>
+            <a href="#">People</a>
+          </li>
+          <li>
+            Hello {{ request.user.first_name|default:request.user.username }},
+            <a href="{% url "logout" %}">Logout</a>
+          </li>
+        </ul>
+        <div id="subheader">
+          <div class="cart">
+            {% with total_items=cart|length %}
+            {% if total_items > 0 %}
+              Your cart:
+              <a href="{% url "cart:cart_detail" %}">
+                {{ total_items }} item{{ total_items|pluralize }},
+                ${{ cart.get_total_price }}
+              </a>
+              {% elif not order %}
+              Your cart is empty.
+            {% endif %}
+          {% endwith %}
+        </div>
+        {% else %}
+        <a href="{% url "login" %}">Log-in</a>
+        {% endif %}
+        
+        </div>
+      </span>
+      </div>
+       
+
+        {% comment %} <a href="/" class="logo">My shop</a> {% endcomment %}
+      {% comment %} </div> {% endcomment %}
+      {% comment %} <div id="subheader">
+      <div class="cart">
+        {% with total_items=cart|length %}
+        {% if total_items > 0 %}
+          Your cart:
+          <a href="{% url "cart:cart_detail" %}">
+            {{ total_items }} item{{ total_items|pluralize }},
+            ${{ cart.get_total_price }}
+          </a>
+          {% elif not order %}
+          Your cart is empty.
+        {% endif %}
+      {% endwith %} {% endcomment %}
+
    <div id="content">
     {% block content %}
     {% endblock %}
